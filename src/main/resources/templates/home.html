@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script></head>
+<body>
+<script type="text/javascript">
+
+    function newUser() {
+        $.ajax({
+            url:'/api/employees',
+            dataType: 'json',
+            type: 'POST',
+            contentType: 'application/json',
+            cache: false,
+            data: JSON.stringify({
+                name: $("#name").val(),
+                surname: $("#surname").val(),
+                department: $("#department").val(),
+                salary: $("#salary").val()
+            })
+        })
+    }
+
+
+
+
+
+
+    $(document).ready(function () {
+        $.get('/api/employees', function (data) {
+            console.log(data);
+            let table = "<table>";
+            for (let i = 0; i < data.length; i++) {
+                table = table + "<tr><td>" + data[i].id + "</td>" +
+                                "<td>" + data[i].name + "</td>" +
+                                "<td>" + data[i].surname + "</td>" +
+                                "<td>" + data[i].department + "</td>" +
+                                "<td>" + data[i].salary + "</td></tr>"
+            }
+                table = table + "</table>";
+            $("#info").html(table);
+        })
+    });
+</script>
+  <div class="container">
+        <button id="btnClick" class="btn btn-info">Click</button>
+  </div>
+<div>
+    <div id="info"></div>
+    <form >
+
+        <input type="text" id="name" placeholder="name">
+        <input type="text" id="surname" placeholder="surname">
+        <input type="text" id="department" placeholder="department">
+        <input type="number" id="salary" placeholder="salary">
+        <input type="button" onclick="newUser()" value="Submit">
+
+    </form>
+</div>
+</body>
+</html>
